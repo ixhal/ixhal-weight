@@ -71,7 +71,7 @@ local function MakePlayerMoveSlower(PlayerPed, speed)
             if Config.effect_sprint_only == true and (IsPedSprinting(PlayerPed) or IsPedRunning(PlayerPed)) or Config.effect_sprint_only == false then
                 SetPedMoveRateOverride(PlayerPed, modified_speed);
             end
-            Citizen.Wait(2)
+            Citizen.Wait(0)
         end
     end)
 end
