@@ -1,74 +1,86 @@
 local modified_speed = nil
+local last_modified_speed = nil
 
-local GetPlayerSpeedPercentLoseFromWeight
+local function GetClosestWeightIndex(weight)
+    local close_weight_index = nil
+    for i = 1, #Config.weight_effects, 1 do
+        if weight >= Config.weight_effects[i].weight then
+            close_weight_index = i
+        else
+            break
+        end
+    end
+
+    return close_weight_index
+end
+
+local function GetSpeedFromWeightIndex(index)
+    if index == nil then return 1.0 end
+    local speed = 1.0
+    if Config.weight_effects[index].slow_percent > 9 then speed -= tonumber('0.'..Config.weight_effects[index].slow_percent) else speed -= tonumber('0.0'..Config.weight_effects[index].slow_percent) end
+    if speed <= 0.0 then speed = 0.01 end
+
+    return speed
+end
+
+local GetPlayerSpeedPercentLoseFromWeight = function()
+    return 1.0
+end
 
 if Config.Framework == 'qbcore' then
     GetPlayerSpeedPercentLoseFromWeight = function()
-        local speed = 1.0
         local weight = 0
-        local close_weight_index = nil
-
+        if PlayerData == nil then return 1.0 end
         local items = PlayerData.items
+        if items == nil then return 1.0 end
         for i, v in pairs(items) do
             if v.weight then
                 weight += v.weight * v.amount
             end
         end
-
-        for i = 1, #Config.Weight_Effects, 1 do
-            if weight >= Config.Weight_Effects[i].weight then
-                close_weight_index = i
-            else
-                break
-            end
-        end
-
-        if close_weight_index == nil then return 1.0 end
-        if Config.Weight_Effects[close_weight_index].slow_percent > 9 then speed -= tonumber('0.'..Config.Weight_Effects[close_weight_index].slow_percent) else speed -= tonumber('0.0'..Config.Weight_Effects[close_weight_index].slow_percent) end
-        if speed <= 0.0 then speed = 0.01 end
+        local weight_index = GetClosestWeightIndex(weight)
+        local speed = GetSpeedFromWeightIndex(weight_index)
 
         return speed
     end
 elseif Config.Framework == 'esxlegacy' then
     GetPlayerSpeedPercentLoseFromWeight = function()
-        local speed = 1.0
         local weight = 0
-        local close_weight_index = nil
 
+        if PlayerData == nil then return 1.0 end
         local items = PlayerData.inventory
+        if items == nil then return 1.0 end
+
         for i, v in pairs(items) do
             if v.weight then
                 weight += v.weight * v.count
             end
         end
 
-        for i = 1, #Config.Weight_Effects, 1 do
-            if weight >= Config.Weight_Effects[i].weight then
-                close_weight_index = i
-            else
-                break
-            end
-        end
-
-        if close_weight_index == nil then return 1.0 end
-        if Config.Weight_Effects[close_weight_index].slow_percent > 9 then speed -= tonumber('0.'..Config.Weight_Effects[close_weight_index].slow_percent) else speed -= tonumber('0.0'..Config.Weight_Effects[close_weight_index].slow_percent) end
-        if speed <= 0.0 then speed = 0.01 end
+        local weight_index = GetClosestWeightIndex(weight)
+        local speed = GetSpeedFromWeightIndex(weight_index)
 
         return speed
     end
 end
 
-local function MakePlayerMoveSlower(speed)
-    while modified_speed == speed do
-        SetPedMoveRateOverride(PlayerPedId(), modified_speed);
-        Citizen.Wait(1)
-    end
+local function MakePlayerMoveSlower(PlayerPed, speed)
+    if last_modified_speed == speed then return end
+    last_modified_speed = speed
+    Citizen.CreateThread(function()
+        while modified_speed == speed do
+            if Config.effect_sprint_only == true and (IsPedSprinting(PlayerPed) or IsPedRunning(PlayerPed)) or Config.effect_sprint_only == false then
+                SetPedMoveRateOverride(PlayerPed, modified_speed);
+            end
+            Citizen.Wait(2)
+        end
+    end)
 end
 
 Citizen.CreateThread(function()
     while true do
         modified_speed = GetPlayerSpeedPercentLoseFromWeight()
-        if modified_speed ~= 1.0 then MakePlayerMoveSlower(modified_speed) end
+        if modified_speed ~= 1.0 then MakePlayerMoveSlower(PlayerPedId(), modified_speed) else last_modified_speed = 1.0 end
         Citizen.Wait(Config.check_interval)
     end
 end)
