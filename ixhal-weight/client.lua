@@ -16,8 +16,7 @@ end
 
 local function GetSpeedFromWeightIndex(index)
     if index == nil then return 1.0 end
-    local speed = 1.0
-    if Config.weight_effects[index].slow_percent > 9 then speed -= tonumber('0.'..Config.weight_effects[index].slow_percent) else speed -= tonumber('0.0'..Config.weight_effects[index].slow_percent) end
+    local speed -= Config.weight_effects[index].slow_percent / 100
     if speed <= 0.0 then speed = 0.01 end
 
     return speed
