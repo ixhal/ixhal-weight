@@ -16,7 +16,7 @@ end
 
 local function GetSpeedFromWeightIndex(index)
     if index == nil then return 1.0 end
-    local speed = Config.weight_effects[index].slow_percent / 100
+    local speed = 1.0 - Config.weight_effects[index].slow_percent / 100
     if speed <= 0.0 then speed = 0.01 end
 
     return speed
@@ -79,6 +79,7 @@ end
 Citizen.CreateThread(function()
     while true do
         modified_speed = GetPlayerSpeedPercentLoseFromWeight()
+        print(modified_speed)
         if modified_speed ~= 1.0 then MakePlayerMoveSlower(PlayerPedId(), modified_speed) else last_modified_speed = 1.0 end
         Citizen.Wait(Config.check_interval)
     end
