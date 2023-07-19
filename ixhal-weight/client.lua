@@ -16,7 +16,7 @@ end
 
 local function GetSpeedFromWeightIndex(index)
     if index == nil then return 1.0 end
-    local speed -= Config.weight_effects[index].slow_percent / 100
+    local speed = Config.weight_effects[index].slow_percent / 100
     if speed <= 0.0 then speed = 0.01 end
 
     return speed
