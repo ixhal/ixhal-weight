@@ -2,6 +2,8 @@ Config = {
     --Specify your framework.
     Framework = 'qbcore',--Supports 'qbcore' and 'esxlegacy'
 
+    Inventory = 'default', --Supports 'default' (qb-inventory/esx-inventory) or ox_inventroy.
+
     --This is how often to check the players items to see how much they should be slowed by.
     check_interval = 1000,
 
