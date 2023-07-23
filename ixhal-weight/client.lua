@@ -3,7 +3,7 @@ local last_modified_speed = nil
 
 local GetClosestWeightIndex = function(weight)
     local close_weight_index = nil
-    if Config.Inventory == 'ox-inventroy' then weight = exports.ox_inventory:GetPlayerWeight() end
+    if Config.Inventory == 'ox-inventory' then weight = exports.ox_inventory:GetPlayerWeight() end
     for i = 1, #Config.weight_effects, 1 do
         if weight >= Config.weight_effects[i].weight then
             close_weight_index = i
