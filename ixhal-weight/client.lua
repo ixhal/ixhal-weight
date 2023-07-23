@@ -31,7 +31,6 @@ local GetPlayerWeight = function()
         for k, v in pairs(items) do
             weight += v.weight * v.count
         end
-        print(weight)
         return weight
     end
     return 0
