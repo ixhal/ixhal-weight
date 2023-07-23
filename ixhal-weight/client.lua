@@ -24,7 +24,16 @@ local GetSpeedFromWeightIndex = function(index)
 end
 
 local GetPlayerWeight = function()
-    if Config.Inventory == 'ox-inventory' then return exports.ox_inventory:GetPlayerWeight() end
+    if Config.Inventory == 'ox-inventory' then 
+        local weight = 0
+        local items = exports.ox_inventory:GetPlayerItems()
+
+        for k, v in pairs(items) do
+            weight += v.weight * v.count
+        end
+        print(weight)
+        return weight
+    end
     return 0
 end
 
