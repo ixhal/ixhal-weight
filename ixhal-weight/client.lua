@@ -79,12 +79,13 @@ if Config.Inventory == 'ox-inventroy' then
     GetPlayerWeight = function()
         local weight = 0
         local items = exports.ox_inventory:GetPlayerItems()
-        for k, v in pairs(items) do weight += v.weight * v.amount end
+        for k, v in pairs(items) do weight += v.weight * v.count end
         return weight
     end
 end
 
-local function MakePlayerMoveSlower(PlayerPed, speed)
+local function MakePlayerMoveSlower(speed)
+    PlayerPed = PlayerPedId()
     if last_modified_speed == speed then return end
     last_modified_speed = speed
     Citizen.CreateThread(function()
@@ -100,14 +101,7 @@ end
 Citizen.CreateThread(function()
     while true do
         modified_speed = GetSpeedFromWeightIndex(GetClosestWeightIndex(GetPlayerWeight()))
-        if modified_speed ~= 1.0 then MakePlayerMoveSlower(PlayerPed, modified_speed) else last_modified_speed = 1.0 end
+        if modified_speed ~= 1.0 then MakePlayerMoveSlower(modified_speed) else last_modified_speed = 1.0 end
         Citizen.Wait(Config.check_interval)
-    end
-end)
-
-Citizen.CreateThread(function()
-    while true do
-        PlayerPed = PlayerPedId()
-        Citizen.Wait(1000)
     end
 end)
