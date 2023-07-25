@@ -1,15 +1,17 @@
 ### Hello!
-I created this script because people was requesting it and I knew it would only take a few minutes to create.
-This script slows the player down based on the weight in their inventory.
+I created this script because people was requesting it and I knew it would only take a few minutes to create.<br>
+This script slows the player down based on the weight in their inventory.<br>
 
 ### Frameworks supported: 
-qb-core.
-esxlegacy.
+qb-core.<br>
+esxlegacy.<br>
+
+### Remember to go into the config.lua file and set your framework/inventory.
 
 ### Inventories supported:
-Any inventory that uses qbcore to handle items.
-Default esx inventory or anything that supports its default items.
-ox-inventory. (set Inventory = 'ox-inventory') in the config.lua file.
+Any inventory that uses qbcore to handle items.<br>
+Default esx inventory or anything that supports its default items.<br>
+ox-inventory. (set Inventory = 'ox-inventory') in the config.lua file.<br>
 
 ### ENJOY
 

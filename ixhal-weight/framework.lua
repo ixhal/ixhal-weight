@@ -1,6 +1,15 @@
+Framework = nil
+PlayerData = nil
+GetPlayerData = nil
+
 if Config.Framework == 'qbcore' then
     Framework = exports['qb-core']:GetCoreObject()
     PlayerData = Framework.Functions.GetPlayerData()
+
+    GetPlayerData = function()
+        local p = Framework.Functions.GetPlayerData()
+        return p
+    end
 
     RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
         PlayerData = Framework.Functions.GetPlayerData()
@@ -18,6 +27,11 @@ end
 if Config.Framework == 'esxlegacy' then
     Framework = exports['es_extended']:getSharedObject()
     PlayerData = Framework.GetPlayerData()
+
+    GetPlayerData = function()
+        local p = Framework.GetPlayerData()
+        return p
+    end
 
     AddEventHandler('esx:setPlayerData', function(key, val, last)
         if GetInvokingResource() == 'es_extended' then

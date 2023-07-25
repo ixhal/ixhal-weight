@@ -2,7 +2,7 @@ Config = {
     --Specify your framework.
     Framework = 'qbcore',--Supports 'qbcore' and 'esxlegacy'
 
-    Inventory = 'default', --Supports 'default' (ox_inventory/esx-inventory) or ox-inventory.
+    Inventory = 'default', --Supports 'default' or 'ox_inventory' default is qb-inventory/esx-inventory.
 
     --This is how often to check the players items to see how much they should be slowed by.
     check_interval = 1000,
@@ -12,10 +12,10 @@ Config = {
     effect_sprint_only = true,
 
     --slow_percent can be 0 - 99.
-    --I actually hard coded it to not go below 0.01 move speed.
+    --hard coded to not go below 0.01 move speed.
     --Change these to the values that suit you.
     weight_effects = {
-        {weight = 5000, slow_percent = 75},
+        {weight = 2000, slow_percent = 60},
         {weight = 10000, slow_percent = 25},
         {weight = 20000, slow_percent = 50},
     },
