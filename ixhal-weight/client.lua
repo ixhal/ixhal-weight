@@ -16,20 +16,6 @@ local GetClosestWeightIndex = function(weight)
     return close_weight_index
 end
 
-local GetSpeedFromWeightIndex = function(weight)
-    local close_weight_index = nil
-
-    for i = 1, #Config.weight_effects, 1 do
-        if weight >= Config.weight_effects[i].weight then
-            close_weight_index = i
-        else
-            break
-        end
-    end
-
-    return close_weight_index
-end
-
 local GetSpeedFromWeightIndex = function(index)
     if index == nil then return 1.0 end
     local speed = 1.0 - Config.weight_effects[index].slow_percent / 100
@@ -75,7 +61,7 @@ elseif Config.Framework == 'esxlegacy' then
     end
 end
 
-if Config.Inventory == 'ox-inventroy' then
+if Config.Inventory == 'ox-inventory' then
     GetPlayerWeight = function()
         local weight = 0
         local items = exports.ox_inventory:GetPlayerItems()
