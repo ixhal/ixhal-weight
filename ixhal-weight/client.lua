@@ -61,7 +61,7 @@ elseif Config.Framework == 'esxlegacy' then
     end
 end
 
-if Config.Inventory == 'ox-inventory' then
+if Config.Inventory == 'ox_inventory' then
     GetPlayerWeight = function()
         local weight = 0
         local items = exports.ox_inventory:GetPlayerItems()
