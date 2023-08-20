@@ -31,7 +31,7 @@ if Config.Framework == 'qbcore' then
         GetPlayerWeight = function()
             local weight = 0
 
-            local items = PlayerData.items
+            local items = PlayerData.items or {}
             if items == nil then return 1.0 end
 
             for i, v in pairs(items) do
@@ -47,7 +47,7 @@ elseif Config.Framework == 'esxlegacy' then
         GetPlayerWeight = function()
             local weight = 0
 
-            local items = PlayerData.inventory
+            local items = PlayerData.inventory or {}
             if items == nil then return 1.0 end
 
             for i, v in pairs(items) do
@@ -64,7 +64,7 @@ end
 if Config.Inventory == 'ox_inventory' then
     GetPlayerWeight = function()
         local weight = 0
-        local items = exports.ox_inventory:GetPlayerItems()
+        local items = exports.ox_inventory:GetPlayerItems() or {}
         for k, v in pairs(items) do weight += v.weight * v.count end
         return weight
     end
