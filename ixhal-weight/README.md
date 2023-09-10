@@ -11,7 +11,7 @@ esxlegacy.<br>
 ### Inventories supported:
 Any inventory that uses qbcore to handle items.<br>
 Default esx inventory or anything that supports its default items.<br>
-ox-inventory. (set Inventory = 'ox-inventory') in the config.lua file.<br>
+ox-inventory. (set Inventory = 'ox_inventory') in the config.lua file.<br>
 
 ### ENJOY
 

@@ -65,7 +65,9 @@ if Config.Inventory == 'ox_inventory' then
     GetPlayerWeight = function()
         local weight = 0
         local items = exports.ox_inventory:GetPlayerItems() or {}
-        for k, v in pairs(items) do weight += v.weight * v.count end
+        for k, v in pairs(items) do 
+            weight += v.weight 
+        end
         return weight
     end
 end
@@ -74,20 +76,20 @@ local function MakePlayerMoveSlower(speed)
     PlayerPed = PlayerPedId()
     if last_modified_speed == speed then return end
     last_modified_speed = speed
-    Citizen.CreateThread(function()
+    CreateThread(function()
         while modified_speed == speed do
             if Config.effect_sprint_only == true and (IsPedJumping(PlayerPed) or IsPedSprinting(PlayerPed) or IsPedRunning(PlayerPed)) or Config.effect_sprint_only == false then
                 SetPedMoveRateOverride(PlayerPed, modified_speed);
             end
-            Citizen.Wait(0)
+            Wait(0)
         end
     end)
 end
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
         modified_speed = GetSpeedFromWeightIndex(GetClosestWeightIndex(GetPlayerWeight()))
         if modified_speed ~= 1.0 then MakePlayerMoveSlower(modified_speed) else last_modified_speed = 1.0 end
-        Citizen.Wait(Config.check_interval)
+        Wait(Config.check_interval)
     end
 end)
